@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width,initial-scale=1.0">
+        <meta name="theme-color" content="#5865F2" media="(prefers-color-scheme: dark)">
+        <meta name="description" content="Outil afin d'avoir le mot (modifié) n'importe où dans un message.">
+        <title>Discord Tools - Middle Edited</title>
+        <link rel="stylesheet" href="../style.css" id="style">
+        <link rel="icon" href="../favicon.png">
+    </head>
+    <body style="text-align: center;">
+        <h1 style="text-align: center;">Discord Middle Edited Bug</h1>
+        <h2 style="text-align: center;">Ce bug permet d'avoir le mot "<span style="font-style:italic ;">(modifié)</span>" en plein milieu d'une phrase comme dans la photo jointe. Pour ce faire, écrivez votre texte en marquant simplement (modifié) là où vous souhaitez voir ce mot apparaître, puis envoyez sur Discord un message, et modifiez le ensuite avec le résultat que vous pouvez copier avec le bouton.</h2>
+        <img src="../assets/imgmeexample.jpg" id="example"><br><br>
+        <form id="form">
+        <input type="text" placeholder="Intégrer du texte ici" class="input" id="text">
+        <input type="text" placeholder="Résultat" class="input" readonly="readonly" id="returned"> 
+    </form>
+    <br>
+    <button id="copybutton">Copier le résultat</button>   
+        <script>
+const t = document.getElementById("text")
+const r = document.getElementById("returned")
+const toreplace = [
+    "(edited)",
+    "(modifié)"
+]
+const copy = document.getElementById("copybutton")
+t.value = ""
+r.value = ""
+t.addEventListener("input",(function e(data){
+    let tb = t.value.split(" ")
+    tb.forEach(word => {
+        if(toreplace.includes(word)){
+            let nbtr = tb.indexOf(word)
+            tb[nbtr] = "‫"
+        }
+    });
+    r.value = tb.join(" ").toString()
+}))
+copy.addEventListener("click",function click(){
+    if(!r.value) {
+        copy.textContent = "Rien à copier !";
+        copy.style.backgroundColor = "#f04747"
+        return 0;
+    }
+    navigator.clipboard.writeText(r.value);
+  copy.textContent = "Copié !";
+  copy.title = "Résultat copié !";
+})
+copy.addEventListener("mouseleave",function out(){
+    copy.textContent = "Copier";
+  copy.title = "Copier le résultat";
+  copy.style = "background-color:  #5865F2 ;"
+})
+copy.addEventListener("mouseover",function over(){
+    copy.style = "background-color:  #4b55c9;"
+})
+        </script>
+    </body>
+</html>
